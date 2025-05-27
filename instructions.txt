@@ -1,0 +1,7 @@
+Follow these steps to run the project
+
+- Download database csv file and move to `database` folder. Don`t change the file name `youtube_trending_videos_global.csv`
+    - url: https://drive.google.com/file/d/13P7pcbPBM95fIvC6txYYoXf7hJLKPUGw/view?usp=sharing
+
+- Run the following prompt to install all needed libs (in mac use bash, in windows use powershell)
+    - pip install -r requirements.txt

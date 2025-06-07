@@ -22,7 +22,7 @@ colums_needed = [
 # Países da Europa e EUA (nomes completos conforme dataset)
 target_countries = [
     'United States', 'United Kingdom', 'Germany', 'France', 'Italy', 'Spain', 'Netherlands', 'Sweden', 'Norway', 'Denmark',
-    'Finland', 'Portugal', 'Greece', 'Austria', 'Switzerland', 'Belgium', 'Ireland', 'United States',
+    'Finland', 'Portugal', 'Greece', 'Austria', 'Switzerland', 'Belgium', 'Ireland',
     'Estonia', 'Czechia', 'Bulgaria', 'Croatia', 'Hungary', 'Iceland', 'Lithuania', 'Luxembourg',
     'Malta', 'Poland', 'Slovakia', 'Slovenia', 'Latvia', 'Liechtenstein'
 ]

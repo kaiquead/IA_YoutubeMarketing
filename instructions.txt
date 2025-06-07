@@ -6,4 +6,4 @@ Follow these steps to run the project. Make sure you have Python3 installed prev
 - Run the following prompt to install all needed libs (in mac use bash, in windows use powershell)
     - pip install -r requirements.txt
 
-- Run 'python3 model.py' file (recommended use VSCode)
+- Run 'model.py' file (recommended use VSCode)

@@ -2,21 +2,20 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import numpy as np
+from sklearn.metrics import silhouette_score, silhouette_samples
+import matplotlib.pyplot as plt
 
 #----------------------------------------------------------------
 # Colunas que serão utilizadas
 #----------------------------------------------------------------
 
 colums_needed = [
-    'video_trending__date',
     'video_trending_country',
     'video_category_id',
-    'video_tags',
     'video_like_count',
     'video_comment_count',
     'channel_country',
-    'channel_view_count',
-    'channel_title'
+    'channel_view_count'
 ]
 
 # Países da Europa e EUA (nomes completos conforme dataset)
@@ -117,5 +116,47 @@ if len(df_filtered) > 0:
         print(f"Visualizações do canal: {video['channel_view_count']}")
         print(f"Comentários do vídeo: {video['video_comment_count']}")
         print(f"Curtidas do vídeo: {video['video_like_count']}")
+
+    #----------------------------------------------------------------
+    # Análise de Silhueta
+    #----------------------------------------------------------------
+    print("\nRealizando análise de silhueta...")
+
+    # Calcula o score de silhueta
+    silhouette_avg = silhouette_score(X_scaled, kmeans.labels_)
+    print(f"\nScore médio de silhueta: {silhouette_avg:.3f}")
+
+    # Calcula os scores de silhueta para cada amostra
+    sample_silhouette_values = silhouette_samples(X_scaled, kmeans.labels_)
+
+    # Cria o gráfico de silhueta
+    plt.figure(figsize=(10, 6))
+    y_lower = 10
+
+    for i in range(3):  # 3 clusters
+        # Agrupa os scores de silhueta para o cluster i
+        ith_cluster_silhouette_values = sample_silhouette_values[kmeans.labels_ == i]
+        ith_cluster_silhouette_values.sort()
+        
+        size_cluster_i = len(ith_cluster_silhouette_values)
+        y_upper = y_lower + size_cluster_i
+        
+        color = plt.cm.nipy_spectral(float(i) / 3)
+        plt.fill_betweenx(np.arange(y_lower, y_upper),
+                         0, ith_cluster_silhouette_values,
+                         facecolor=color, edgecolor=color, alpha=0.7)
+        
+        # Adiciona o número do cluster no meio do gráfico
+        plt.text(-0.05, y_lower + 0.5 * size_cluster_i, str(i + 1))
+        
+        y_lower = y_upper + 10
+
+    plt.axvline(x=silhouette_avg, color="red", linestyle="--")
+    plt.yticks([])
+    plt.xlabel("Coeficiente de Silhueta")
+    plt.ylabel("Cluster")
+    plt.title("Análise de Silhueta para 3 clusters")
+    plt.savefig('silhouette_analysis.png')
+    plt.close()
 else:
     print("\nNenhum vídeo encontrado mesmo após ajuste dos critérios.")

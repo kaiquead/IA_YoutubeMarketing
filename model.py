@@ -157,7 +157,6 @@ if len(df_filtered) > 0:
     plt.xlabel("Coeficiente de Silhueta")
     plt.ylabel("Cluster")
     plt.title("Análise de Silhueta para 3 clusters")
-    plt.savefig('silhouette_analysis.png')
-    plt.close()
+    plt.show()  # Mostra o gráfico
 else:
     print("\nNenhum vídeo encontrado mesmo após ajuste dos critérios.")

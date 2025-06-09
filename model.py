@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 import numpy as np
 from sklearn.metrics import silhouette_score, silhouette_samples
 import matplotlib.pyplot as plt
@@ -52,8 +52,8 @@ for chunk in df_chunks:
     filtered = chunk[
         (chunk['video_category_id'].str.contains('Sports', case=False, na=False)) &
         (chunk['video_trending_country'].isin(target_countries)) &
-        (pd.to_numeric(chunk['channel_view_count'], errors='coerce') > 100000) &
-        (pd.to_numeric(chunk['video_comment_count'], errors='coerce') > 200)
+        (pd.to_numeric(chunk['channel_view_count'], errors='coerce') > 100000000) &
+        (pd.to_numeric(chunk['video_comment_count'], errors='coerce') > 5000)
     ].fillna(0)
     df_filtered = pd.concat([df_filtered, filtered], ignore_index=True)
 
@@ -81,8 +81,24 @@ if len(df_filtered) > 0:
     #----------------------------------------------------------------
 
     print("\nPreparando os dados para o K-means...")
-    # Seleciona as features para o clustering
-    features = ['video_like_count', 'video_comment_count', 'channel_view_count']
+    features = [
+        'video_trending_country',
+        'video_like_count',
+        'video_comment_count',
+        'channel_country',
+        'channel_view_count'
+    ]
+
+    # Criar cópias das colunas originais para os prints
+    df_filtered['channel_title_original'] = df_filtered['channel_title']
+    df_filtered['video_trending_country_original'] = df_filtered['video_trending_country']
+
+    # Tokenização das features categóricas
+    le = LabelEncoder()
+    for feature in features:
+        if df_filtered[feature].dtype == 'object':
+            df_filtered[feature] = le.fit_transform(df_filtered[feature].astype(str))
+
     X = df_filtered[features].astype(float)
 
     # Normaliza os dados
@@ -112,8 +128,8 @@ if len(df_filtered) > 0:
     print("\nVídeos mais relevantes por cluster:")
     for i, video in enumerate(most_relevant_videos):
         print(f"\nCluster {i+1}:")
-        print(f"Canal: {video['channel_title']}")
-        print(f"País: {video['video_trending_country']}")
+        print(f"Canal: {video['channel_title_original']}")
+        print(f"País: {video['video_trending_country_original']}")
         print(f"Visualizações do canal: {video['channel_view_count']}")
         print(f"Comentários do vídeo: {video['video_comment_count']}")
         print(f"Curtidas do vídeo: {video['video_like_count']}")

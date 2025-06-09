@@ -15,7 +15,8 @@ colums_needed = [
     'video_like_count',
     'video_comment_count',
     'channel_country',
-    'channel_view_count'
+    'channel_view_count',
+    'channel_title'
 ]
 
 # Países da Europa e EUA (nomes completos conforme dataset)

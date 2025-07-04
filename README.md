@@ -42,7 +42,7 @@ Para avaliar a qualidade dos agrupamentos, usamos o **coeficiente de silhueta**,
 
 ## 5. Resultados Finais e Avaliação de Estratégia
 
-Com o modelo de 3 clusters localizamos quais os 3 canais que estavam mais perto do centroide e com isso identificamos os **três canais mais relevantes** para divulgação de produtos esportivos:
+Com o modelo de 3 clusters, localizamos quais os 3 canais que estavam mais perto do centroide. Com isso identificamos os **três canais mais relevantes** para divulgação de produtos esportivos:
 
 - **Red Bull**
 - **UFC**
